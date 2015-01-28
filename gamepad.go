@@ -12,20 +12,19 @@ func NewGamepad(in <-chan Event) *Gamepad {
 	}
 	go func() {
 		for e := range in {
-			b := e.Button()
-			switch b {
-			case DPadUp:
-				g.s.Up = e.Bool()
-			case DPadDown:
-				g.s.Down = e.Bool()
-			case DPadLeft:
-				g.s.Left = e.Bool()
-			case DPadRight:
-				g.s.Right = e.Bool()
+			switch e.Button {
+			case Up:
+				g.s.Up = e.Pressed
+			case Down:
+				g.s.Down = e.Pressed
+			case Left:
+				g.s.Left = e.Pressed
+			case Right:
+				g.s.Right = e.Pressed
 			}
 			for n, btns := range g.nm {
 				for _, btn := range btns {
-					if b == btn {
+					if e.Button == btn {
 						select {
 						case n <- e:
 						default: // non-blocking

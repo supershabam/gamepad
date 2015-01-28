@@ -11,10 +11,10 @@ func main() {
 	g := gamepad.NewGamepad(in)
 
 	next := make(chan gamepad.Event, 0)
-	g.Notify(next, gamepad.DPadLeft, gamepad.DPadRight, gamepad.DPadUp)
+	g.Notify(next, gamepad.Left, gamepad.Right, gamepad.Up)
 
-	in <- gamepad.UpDPadEvent{true}
-	in <- gamepad.UpDPadEvent{true}
+	in <- gamepad.Event{Button: gamepad.Up, Pressed: true}
+	in <- gamepad.Event{Button: gamepad.Up, Pressed: false}
 
 	select {
 	case e := <-next:
